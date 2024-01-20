@@ -28,7 +28,9 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 git clone https://github.com/Matheusfbio/Sistema-de-Gerenciamento-de-Clientes.git
 cd Sistema-de-Gerenciamento-de-Clientes
 ```
-Abra 2 terminais uma para executar o frontend e o backend.
+Abra 2 terminais, uma para executar o frontend e o backend.
+
+1° terminal
 
 Instale as dependências do backend:
 
@@ -54,6 +56,8 @@ yarn dev
 
 - Abra alguma plataforma que executa Api com postman, apidog ou Insomina.
 - Navega para http://localhost:3000/api-docs/#/ e execute na plataforma de api o /setup para gerar o banco de dados.
+
+2° terminar 
 
 Instale as dependências do frontend:
 
