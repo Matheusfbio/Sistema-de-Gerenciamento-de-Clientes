@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const swaggerUi = require("swagger-ui-express");
@@ -9,7 +10,7 @@ const pool = require("./database/db");
 const port = 3000;
 
 const app = express();
-app.use(cors());
+app.use(cors(), bodyParser.json());
 
 // Configuração do Swagger
 const swaggerOptions = {
@@ -191,6 +192,52 @@ app.post("/clientes", async (req, res) => {
   } catch (error) {
     console.error("Erro ao cadastrar cliente", error);
     res.status(500).send("Erro interno");
+  }
+});
+
+/**
+ * @swagger
+ * /clientes/{id}:
+ *   put:
+ *     summary: Atualiza um cliente existente
+ *     tags:
+ *       - Clientes
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do cliente a ser atualizado
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       description: Objeto contendo os dados do cliente
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Cliente'
+ *     responses:
+ *       200:
+ *         description: Cliente atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Cliente'
+ *       500:
+ *         description: Erro ao editar cliente
+ */
+app.put("/clientes/:id", async (req, res) => {
+  const id = req.params.id;
+  const { nome, email, telefone } = req.body;
+  try {
+    const result = await pool.query(
+      "UPDATE clientes SET nome = $1, email = $2, telefone = $3 WHERE id = $4 RETURNING *",
+      [nome, email, telefone, id]
+    );
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Erro ao editar cliente", error);
+    res.status(500).send("Erro ao editar cliente");
   }
 });
 
