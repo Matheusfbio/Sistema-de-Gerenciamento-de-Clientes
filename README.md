@@ -4,7 +4,7 @@ Bem-vindo ao Sistema de Gerenciamento de Clientes! Este projeto foi desenvolvido
 
 ## Visão Geral
 
-O Sistema de Gerenciamento de Clientes é uma aplicação desenvolvida em [inserir linguagem de programação aqui] que oferece recursos abrangentes para ajudar na gestão eficiente de informações sobre clientes. Ele é projetado para ser modular, fácil de personalizar e oferece uma interface amigável para facilitar a navegação.
+O Sistema de Gerenciamento de Clientes é uma aplicação desenvolvida em React.js para o frontend, Node.js para o backend e posygres para armazenar os dados localmente, que oferece recursos abrangentes para ajudar na gestão eficiente de informações sobre clientes. Ele é projetado para ser modular, fácil de personalizar e oferece uma interface amigável para facilitar a navegação.
 
 ## Funcionalidades Principais
 
