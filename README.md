@@ -28,7 +28,7 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 git clone https://github.com/Matheusfbio/Sistema-de-Gerenciamento-de-Clientes.git
 cd Sistema-de-Gerenciamento-de-Clientes
 ```
-- Abra 2 terminais uma para executar o frontend e o backend.
+Abra 2 terminais uma para executar o frontend e o backend.
 
 Instale as dependências do backend:
 
