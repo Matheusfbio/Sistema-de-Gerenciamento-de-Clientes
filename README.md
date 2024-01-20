@@ -16,44 +16,33 @@ O Sistema de Gerenciamento de Clientes é uma aplicação desenvolvida em [inser
 
 ## Como Usar
 
-1. Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
+Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
 - Node.js (versão recomendada: 14.x)
 - Yarn (gerenciador de pacotes para o Node.js)
 - PostgreSQL (banco de dados relacional)
 
-2. **Clone o Repositório:**
-
-   ```bash
-   git clone https://github.com/Matheusfbio/Sistema-de-Gerenciamento-de-Clientes.git
-   cd Sistema-de-Gerenciamento-de-Clientes
-   ```
-
-3. **Configuração:**
-
-   Clone este repositório:
-
-- git clone https://github.com/Matheusfbio/Sistema-de-Gerenciamento-de-Clientes.git
-  Navegue até o diretório do projeto:
+**Clone o Repositório:**
 
 ```bash
-  cd Sistema-de-Gerenciamento-de-Clientes
+git clone https://github.com/Matheusfbio/Sistema-de-Gerenciamento-de-Clientes.git
+cd Sistema-de-Gerenciamento-de-Clientes
 ```
 
-- Instale as dependências do backend:
+Instale as dependências do backend:
 
 ```bash
 cd backend
 yarn install
 ```
 
-- Crie o banco de dados:
+Crie o banco de dados:
 
 ```bash
 USER=postgres
 HOST=localhost
 DATABASE=Cliente-test
-PASSWORD=sua senha do postgres
+PASSWORD=sua-senha-do-postgres
 PORT=5432
 ```
 
@@ -62,27 +51,28 @@ cd backend
 yarn dev
 ```
 
-- Abra alguma plataforma que executa Api com postman, apidog ou Insomina
+- Abra alguma plataforma que executa Api com postman, apidog ou Insomina.
 - Navega para http://localhost:3000/api-docs/#/ e execute na plataforma de api o /setup para gerar o banco de dados.
 
 Instale as dependências do frontend:
 
-4. **Execução:**
-   ```bash
-   cd frontend
-   yarn install
-   ```
+**Execução:**
+
+```bash
+cd frontend
+yarn install
+```
 
 ## Contribuição
 
 Contribuições são bem-vindas! Se você encontrar problemas, bugs ou tiver sugestões para melhorias, sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
-## Licença
-
-Este projeto é distribuído sob a licença [inserir licença aqui]. Consulte o arquivo [LICENSE](LICENSE) para obter mais detalhes.
-
 ## Contato
 
 Para questões ou mais informações sobre o projeto, entre em contato com Matheusfbio via email:matheusfabiorsgmail.com ou Linkedin https://www.linkedin.com/in/matheus-fabio/
 
-Esperamos que o Sistema de Gerenciamento de Clientes seja útil para suas necessidades de gestão de clientes! Obrigado por usar e contribuir para este projeto.
+## Observaçoes
+
+- Não foi possivel implementar a 2 parte do teste devido ao tempo curto, mas, futuramento tentarei implemente esta parte.
+
+- Esperamos que o Sistema de Gerenciamento de Clientes seja útil para suas necessidades de gestão de clientes! Obrigado por usar espero que curta o projeto
