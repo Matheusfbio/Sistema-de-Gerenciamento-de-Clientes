@@ -18,7 +18,7 @@ O Sistema de Gerenciamento de Clientes é uma aplicação desenvolvida em [inser
 
 Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
-- Node.js (versão recomendada: 14.x)
+- Node.js (versão recomendada: 18.x)
 - Yarn (gerenciador de pacotes para o Node.js)
 - PostgreSQL (banco de dados relacional)
 
