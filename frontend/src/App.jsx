@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function App() {
   const [clientes, setClientes] = useState([]);
+  const [semResultados, setSemResultados] = useState(false);
   const [novoCliente, setNovoCliente] = useState({
     nome: "",
     email: "",
@@ -41,17 +42,20 @@ export default function App() {
     setNovoCliente({ nome: "", email: "", telefone: "" });
     fetchClientes();
   };
-
   const filtrarClientes = async () => {
     if (!filtroNome) {
       alert("Por favor, insira um nome para filtrar");
       return;
     }
+
     const response = await fetch(
       `http://localhost:3000/clientes/${filtroNome}`
     );
     const data = await response.json();
     setClientes(data);
+
+    // Se nenhum cliente for encontrado, exibir mensagem ou botão
+    setSemResultados(data.length === 0);
   };
 
   const editarCliente = async (id) => {
@@ -99,27 +103,33 @@ export default function App() {
         <h2 className="flex flex-col p-2 items-center justify-center">
           Lista de Clientes
         </h2>
-        <ul className="px-9 rounded-lg border border-black space-y-3 max-h-96">
-          {clientes.map((cliente) => (
-            <li className="space-x-3" key={cliente.id}>
-              {cliente.nome} - {cliente.email} - {cliente.telefone}
-              <div className="text-center p-2">
-                <button
-                  className="rounded-lg text-center border border-black mx-2  hover:bg-green-500"
-                  onClick={() => editarCliente(cliente.id)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="rounded-lg text-center border border-black  hover:bg-red-500"
-                  onClick={() => excluirCliente(cliente.id)}
-                >
-                  Excluir
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {semResultados ? (
+          <p className="text-red-600">
+            Nenhum cliente encontrado. insira o mesmo nome do cadastro.
+          </p>
+        ) : (
+          <ul className="px-9 rounded-lg border border-black space-y-3 max-h-96">
+            {clientes.map((cliente) => (
+              <li className="space-x-3" key={cliente.id}>
+                {cliente.nome} - {cliente.email} - {cliente.telefone}
+                <div className="text-center p-2">
+                  <button
+                    className="rounded-lg text-center border border-black mx-2  hover:bg-green-500"
+                    onClick={() => editarCliente(cliente.id)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="rounded-lg text-center border border-black  hover:bg-red-500"
+                    onClick={() => excluirCliente(cliente.id)}
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className="flex flex-col px-16  p-5 space-y-4 rounded-lg border border-black max-w-full">
         <h2 className="flex items-center justify-center">
