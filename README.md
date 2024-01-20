@@ -14,12 +14,13 @@ O Sistema de Gerenciamento de Clientes é uma aplicação desenvolvida em [inser
 
 - **Atualizações e Remoções:** Atualize facilmente as informações do cliente e remova registros quando necessário.
 
-- **Histórico de Atividades:** Mantenha um histórico de atividades e interações com cada cliente para uma gestão mais eficaz.
-
 ## Como Usar
 
-1. **Pré-requisitos:**
-   Certifique-se de ter [inserir requisitos aqui] instalados em sua máquina.
+1. Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
+
+- Node.js (versão recomendada: 14.x)
+- Yarn (gerenciador de pacotes para o Node.js)
+- PostgreSQL (banco de dados relacional)
 
 2. **Clone o Repositório:**
 
@@ -30,11 +31,46 @@ O Sistema de Gerenciamento de Clientes é uma aplicação desenvolvida em [inser
 
 3. **Configuração:**
 
-   - [inserir instruções de configuração aqui]
+   Clone este repositório:
+
+- git clone https://github.com/Matheusfbio/Sistema-de-Gerenciamento-de-Clientes.git
+  Navegue até o diretório do projeto:
+
+```bash
+  cd Sistema-de-Gerenciamento-de-Clientes
+```
+
+- Instale as dependências do backend:
+
+```bash
+cd backend
+yarn install
+```
+
+- Crie o banco de dados:
+
+```bash
+USER=postgres
+HOST=localhost
+DATABASE=Cliente-test
+PASSWORD=sua senha do postgres
+PORT=5432
+```
+
+```bash
+cd backend
+yarn dev
+```
+
+- Abra alguma plataforma que executa Api com postman, apidog ou Insomina
+- Navega para http://localhost:3000/api-docs/#/ e execute na plataforma de api o /setup para gerar o banco de dados.
+
+Instale as dependências do frontend:
 
 4. **Execução:**
    ```bash
-   [comando para executar o projeto]
+   cd frontend
+   yarn install
    ```
 
 ## Contribuição
