@@ -1,20 +1,29 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function App() {
   const [clientes, setClientes] = useState([]);
   const [semResultados, setSemResultados] = useState(false);
+  const [novaCoordenadaX, setNovaCoordenadaX] = useState("");
+  const [novaCoordenadaY, setNovaCoordenadaY] = useState("");
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [ordemVisita, setOrdemVisita] = useState([]);
   const [novoCliente, setNovoCliente] = useState({
     nome: "",
     email: "",
     telefone: "",
+    coordenada_x: "",
+    coordenada_y: "",
   });
-
   const [filtroNome, setFiltroNome] = useState("");
 
   const fetchClientes = async () => {
-    const response = await fetch("http://localhost:3000/clientes");
-    const data = await response.json();
-    setClientes(data);
+    try {
+      const response = await axios.get("http://localhost:3000/clientes");
+      setClientes(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar clientes", error);
+    }
   };
 
   useEffect(() => {
@@ -26,22 +35,39 @@ export default function App() {
   };
 
   const cadastrarCliente = async () => {
-    if (!novoCliente.nome || !novoCliente.email || !novoCliente.telefone) {
-      alert("Por favor, preencha todos os campos");
-      return;
+    try {
+      if (
+        !novoCliente.nome ||
+        !novoCliente.email ||
+        !novoCliente.telefone ||
+        !novaCoordenadaX ||
+        !novaCoordenadaY
+      ) {
+        alert("Por favor, preencha todos os campos");
+        return;
+      }
+
+      await axios.post("http://localhost:3000/clientes", {
+        ...novoCliente,
+        coordenada_x: novaCoordenadaX,
+        coordenada_y: novaCoordenadaY,
+      });
+
+      setNovoCliente({
+        nome: "",
+        email: "",
+        telefone: "",
+        coordenada_x: "",
+        coordenada_y: "",
+      });
+      setNovaCoordenadaX("");
+      setNovaCoordenadaY("");
+      fetchClientes();
+    } catch (error) {
+      console.error("Erro ao cadastrar cliente", error);
     }
-
-    await fetch("http://localhost:3000/clientes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(novoCliente),
-    });
-
-    setNovoCliente({ nome: "", email: "", telefone: "" });
-    fetchClientes();
   };
+
   const filtrarClientes = async () => {
     if (!filtroNome) {
       alert("Por favor, insira um nome para filtrar");
@@ -76,7 +102,6 @@ export default function App() {
           telefone: novoTelefone || clienteParaEditar.telefone,
         }),
       });
-
       fetchClientes();
     }
   };
@@ -92,6 +117,20 @@ export default function App() {
 
       fetchClientes();
     }
+  };
+  const calcularRotaOtimizada = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/calcular-rota");
+      setOrdemVisita(response.data);
+
+      setMostrarModal(true);
+    } catch (error) {
+      console.error("Erro ao calcular rota otimizada", error);
+    }
+  };
+
+  const closeModal = () => {
+    setMostrarModal(false);
   };
 
   return (
@@ -111,7 +150,8 @@ export default function App() {
           <ul className="px-9 rounded-lg border border-black space-y-3 max-h-96">
             {clientes.map((cliente) => (
               <li className="space-x-3" key={cliente.id}>
-                {cliente.nome} - {cliente.email} - {cliente.telefone}
+                {cliente.nome} - {cliente.email} - {cliente.telefone} -{" "}
+                {cliente.coordenada_x} - {cliente.coordenada_y}
                 <div className="text-center p-2">
                   <button
                     className="rounded-lg text-center border border-black mx-2  hover:bg-green-500"
@@ -159,6 +199,22 @@ export default function App() {
           value={novoCliente.telefone}
           onChange={handleInputChange}
         />
+        <input
+          className="rounded-lg text-center border border-black"
+          type="text"
+          name="coordenada_x"
+          placeholder="Coordenada X"
+          value={novaCoordenadaX}
+          onChange={(e) => setNovaCoordenadaX(e.target.value)}
+        />
+        <input
+          className="rounded-lg text-center border border-black"
+          type="text"
+          name="coordenada_y"
+          placeholder="Coordenada Y"
+          value={novaCoordenadaY}
+          onChange={(e) => setNovaCoordenadaY(e.target.value)}
+        />
         <button
           className="rounded-lg text-center border border-black  hover:bg-green-500"
           onClick={cadastrarCliente}
@@ -183,6 +239,43 @@ export default function App() {
         >
           Filtrar
         </button>
+      </div>
+      <div className="App">
+        <h1>Clientes e Rotas</h1>
+        <button
+          className="rounded-lg text-center border border-black hover:bg-blue-500"
+          onClick={calcularRotaOtimizada}
+        >
+          Calcular Rota Otimizada
+        </button>
+        <ul>
+          {clientes.map((cliente) => (
+            <li
+              key={cliente.id}
+            >{`${cliente.nome} - (${cliente.coordenada_x}, ${cliente.coordenada_y})`}</li>
+          ))}
+        </ul>
+
+        {mostrarModal && (
+          <div>
+            <div>
+              <span
+                className="rounded-lg text-center border border-black hover:bg-blue-500"
+                onClick={closeModal}
+              >
+                &times;
+              </span>
+              <h2>Ordem de Visitação dos Clientes</h2>
+              <ul>
+                {ordemVisita.map((cliente) => (
+                  <li
+                    key={cliente.id}
+                  >{`Cliente ${cliente.id} - (${cliente.x}, ${cliente.y})`}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

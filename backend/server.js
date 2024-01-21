@@ -287,6 +287,46 @@ app.delete("/clientes/:id", async (req, res) => {
   }
 });
 
+app.get("/calcular-rota", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM clientes");
+
+    // Transformar os resultados do banco de dados para um formato adequado ao TSP
+    const locations = result.rows.map((cliente) => ({
+      id: cliente.id,
+      nome: cliente.nome,
+      x: cliente.coordenada_x,
+      y: cliente.coordenada_y,
+    }));
+
+    // Implementar o algoritmo TSP aqui para encontrar a ordem de visitação otimizada
+
+    // Simplesmente retornando a lista de clientes para fins de exemplo
+    res.json(locations);
+  } catch (error) {
+    console.error("Erro ao calcular rota otimizada", error);
+    res.status(500).send("Erro no lado do servidor");
+  }
+});
+
+// Rota para cadastrar um novo cliente
+app.post("/clientes", async (req, res) => {
+  const { nome, email, telefone, coordenada_x, coordenada_y } = req.body;
+  const clienteId = uuidv4();
+
+  try {
+    const result = await pool.query(
+      "INSERT INTO clientes (id, nome, email, telefone, coordenada_x, coordenada_y) VALUES ($1, $2, $3, $4, $5, $6)",
+      [clienteId, nome, email, telefone, coordenada_x, coordenada_y]
+    );
+
+    res.status(200).send({ message: "Cliente cadastrado com sucesso" });
+  } catch (error) {
+    console.error("Erro ao cadastrar cliente", error);
+    res.status(500).send("Erro interno");
+  }
+});
+
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port} ✅`);
 });
