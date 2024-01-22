@@ -179,16 +179,15 @@ app.get("/clientes/:filtro", async (req, res) => {
  *         description: Erro interno
  */
 app.post("/clientes", async (req, res) => {
-  const { nome, email, telefone } = req.body;
-  const clienteId = uuidv4(); // Gera um UUID
+  const { nome, email, telefone, coordenada_x, coordenada_y } = req.body;
 
   try {
     const result = await pool.query(
-      "INSERT INTO clientes (id, nome, email, telefone) VALUES ($1, $2, $3, $4)",
-      [clienteId, nome, email, telefone]
+      "INSERT INTO clientes (nome, email, telefone, coordenada_x, coordenada_y) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [nome, email, telefone, coordenada_x, coordenada_y]
     );
 
-    res.status(200).send({ message: "Cliente cadastrado com sucesso" });
+    res.status(200).json(result.rows[0]);
   } catch (error) {
     console.error("Erro ao cadastrar cliente", error);
     res.status(500).send("Erro interno");
@@ -228,11 +227,12 @@ app.post("/clientes", async (req, res) => {
  */
 app.put("/clientes/:id", async (req, res) => {
   const id = req.params.id;
-  const { nome, email, telefone } = req.body;
+  const { nome, email, telefone, coordenada_x, coordenada_y } = req.body;
+
   try {
     const result = await pool.query(
-      "UPDATE clientes SET nome = $1, email = $2, telefone = $3 WHERE id = $4 RETURNING *",
-      [nome, email, telefone, id]
+      "UPDATE clientes SET nome = $1, email = $2, telefone = $3, coordenada_x = $4, coordenada_y = $5 WHERE id = $6 RETURNING *",
+      [nome, email, telefone, coordenada_x, coordenada_y, id]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -306,24 +306,6 @@ app.get("/calcular-rota", async (req, res) => {
   } catch (error) {
     console.error("Erro ao calcular rota otimizada", error);
     res.status(500).send("Erro no lado do servidor");
-  }
-});
-
-// Rota para cadastrar um novo cliente
-app.post("/clientes", async (req, res) => {
-  const { nome, email, telefone, coordenada_x, coordenada_y } = req.body;
-  const clienteId = uuidv4();
-
-  try {
-    const result = await pool.query(
-      "INSERT INTO clientes (id, nome, email, telefone, coordenada_x, coordenada_y) VALUES ($1, $2, $3, $4, $5, $6)",
-      [clienteId, nome, email, telefone, coordenada_x, coordenada_y]
-    );
-
-    res.status(200).send({ message: "Cliente cadastrado com sucesso" });
-  } catch (error) {
-    console.error("Erro ao cadastrar cliente", error);
-    res.status(500).send("Erro interno");
   }
 });
 

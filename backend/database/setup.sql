@@ -6,4 +6,4 @@
     telefone VARCHAR(100),
     coordenada_x DOUBLE PRECISION,
     coordenada_y DOUBLE PRECISION
-  );;
+  );

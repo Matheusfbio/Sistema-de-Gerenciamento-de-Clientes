@@ -4,18 +4,16 @@ import axios from "axios";
 export default function App() {
   const [clientes, setClientes] = useState([]);
   const [semResultados, setSemResultados] = useState(false);
-  const [novaCoordenadaX, setNovaCoordenadaX] = useState("");
-  const [novaCoordenadaY, setNovaCoordenadaY] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
   const [ordemVisita, setOrdemVisita] = useState([]);
+  const [filtroNome, setFiltroNome] = useState("");
   const [novoCliente, setNovoCliente] = useState({
     nome: "",
     email: "",
     telefone: "",
-    coordenada_x: "",
-    coordenada_y: "",
+    coordenada_x: 0, // Defina o valor padrão conforme necessário
+    coordenada_y: 0, // Defina o valor padrão conforme necessário
   });
-  const [filtroNome, setFiltroNome] = useState("");
 
   const fetchClientes = async () => {
     try {
@@ -35,38 +33,38 @@ export default function App() {
   };
 
   const cadastrarCliente = async () => {
+    const { nome, email, telefone, coordenada_x, coordenada_y } = novoCliente;
+
+    // Verifica se todos os campos estão preenchidos, incluindo coordenadas
+    if (
+      !nome ||
+      !email ||
+      !telefone ||
+      coordenada_x === null ||
+      coordenada_y === null
+    ) {
+      alert("Por favor, preencha todos os campos");
+      return;
+    }
+
     try {
-      if (
-        !novoCliente.nome ||
-        !novoCliente.email ||
-        !novoCliente.telefone ||
-        !novaCoordenadaX ||
-        !novaCoordenadaY
-      ) {
-        alert("Por favor, preencha todos os campos");
-        return;
-      }
-
-      await axios.post("http://localhost:3000/clientes", {
-        ...novoCliente,
-        coordenada_x: novaCoordenadaX,
-        coordenada_y: novaCoordenadaY,
-      });
-
+      await axios.post("http://localhost:3000/clientes", novoCliente);
+      fetchClientes();
       setNovoCliente({
         nome: "",
         email: "",
         telefone: "",
-        coordenada_x: "",
-        coordenada_y: "",
+        coordenada_x: 0,
+        coordenada_y: 0,
       });
-      setNovaCoordenadaX("");
-      setNovaCoordenadaY("");
-      fetchClientes();
     } catch (error) {
       console.error("Erro ao cadastrar cliente", error);
     }
   };
+
+  useEffect(() => {
+    fetchClientes();
+  }, []);
 
   const filtrarClientes = async () => {
     if (!filtroNome) {
@@ -86,11 +84,28 @@ export default function App() {
 
   const editarCliente = async (id) => {
     const clienteParaEditar = clientes.find((cliente) => cliente.id === id);
+
     const novoNome = prompt("Novo Nome:", clienteParaEditar.nome);
     const novoEmail = prompt("Novo Email:", clienteParaEditar.email);
     const novoTelefone = prompt("Novo Telefone:", clienteParaEditar.telefone);
 
-    if (novoNome || novoEmail || novoTelefone) {
+    // Solicite as coordenadas X e Y ao usuário
+    const novaCoordenadaX = prompt(
+      "Nova Coordenada X:",
+      clienteParaEditar.coordenada_x
+    );
+    const novaCoordenadaY = prompt(
+      "Nova Coordenada Y:",
+      clienteParaEditar.coordenada_y
+    );
+
+    if (
+      novoNome ||
+      novoEmail ||
+      novoTelefone ||
+      novaCoordenadaX ||
+      novaCoordenadaY
+    ) {
       await fetch(`http://localhost:3000/clientes/${id}`, {
         method: "PUT",
         headers: {
@@ -100,6 +115,8 @@ export default function App() {
           nome: novoNome || clienteParaEditar.nome,
           email: novoEmail || clienteParaEditar.email,
           telefone: novoTelefone || clienteParaEditar.telefone,
+          coordenada_x: novaCoordenadaX || clienteParaEditar.coordenada_x,
+          coordenada_y: novaCoordenadaY || clienteParaEditar.coordenada_y,
         }),
       });
       fetchClientes();
@@ -122,7 +139,6 @@ export default function App() {
     try {
       const response = await axios.get("http://localhost:3000/calcular-rota");
       setOrdemVisita(response.data);
-
       setMostrarModal(true);
     } catch (error) {
       console.error("Erro ao calcular rota otimizada", error);
@@ -150,8 +166,8 @@ export default function App() {
           <ul className="px-9 rounded-lg border border-black space-y-3 max-h-96">
             {clientes.map((cliente) => (
               <li className="space-x-3" key={cliente.id}>
-                {cliente.nome} - {cliente.email} - {cliente.telefone} -{" "}
-                {cliente.coordenada_x} - {cliente.coordenada_y}
+                {cliente.nome} - {cliente.email} - {cliente.telefone} - (
+                {cliente.coordenada_x}) - ({cliente.coordenada_y})
                 <div className="text-center p-2">
                   <button
                     className="rounded-lg text-center border border-black mx-2  hover:bg-green-500"
@@ -201,22 +217,24 @@ export default function App() {
         />
         <input
           className="rounded-lg text-center border border-black"
-          type="text"
-          name="coordenada_x"
+          type="number"
           placeholder="Coordenada X"
-          value={novaCoordenadaX}
-          onChange={(e) => setNovaCoordenadaX(e.target.value)}
+          value={novoCliente.coordenada_x}
+          onChange={(e) =>
+            setNovoCliente({ ...novoCliente, coordenada_x: e.target.value })
+          }
         />
         <input
           className="rounded-lg text-center border border-black"
-          type="text"
-          name="coordenada_y"
+          type="number"
           placeholder="Coordenada Y"
-          value={novaCoordenadaY}
-          onChange={(e) => setNovaCoordenadaY(e.target.value)}
+          value={novoCliente.coordenada_y}
+          onChange={(e) =>
+            setNovoCliente({ ...novoCliente, coordenada_y: e.target.value })
+          }
         />
         <button
-          className="rounded-lg text-center border border-black  hover:bg-green-500"
+          className="rounded-lg text-center border border-black"
           onClick={cadastrarCliente}
         >
           Cadastrar
@@ -240,10 +258,10 @@ export default function App() {
           Filtrar
         </button>
       </div>
-      <div className="App">
+      <div className="flex flex-col space-y-3 max-w-full items-center justify-center">
         <h1>Clientes e Rotas</h1>
         <button
-          className="rounded-lg text-center border border-black hover:bg-blue-500"
+          className="rounded-lg px-12 text-center border border-black hover:bg-blue-500"
           onClick={calcularRotaOtimizada}
         >
           Calcular Rota Otimizada
@@ -258,19 +276,19 @@ export default function App() {
 
         {mostrarModal && (
           <div>
-            <div>
+            <div className="rounded-lg text-center items-center justify-center">
               <span
-                className="rounded-lg text-center border border-black hover:bg-blue-500"
+                className="rounded-lg px-12 text-center items-center justify-center border border-black hover:bg-blue-500"
                 onClick={closeModal}
               >
                 &times;
               </span>
               <h2>Ordem de Visitação dos Clientes</h2>
-              <ul>
+              <ul className="flex flex-col space-x-1">
                 {ordemVisita.map((cliente) => (
                   <li
                     key={cliente.id}
-                  >{`Cliente ${cliente.id} - (${cliente.x}, ${cliente.y})`}</li>
+                  >{`Cliente ${cliente.id} - ${cliente.nome} - (${cliente.x}, ${cliente.y})`}</li>
                 ))}
               </ul>
             </div>
