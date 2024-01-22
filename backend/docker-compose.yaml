@@ -1,0 +1,12 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: Alegri@18
+      POSTGRES_USER: postgres
+      POSTGRES_DB: Cliente-test
+  app:
+    image: sm-cliente
+    ports:
+      - 13000:3000
