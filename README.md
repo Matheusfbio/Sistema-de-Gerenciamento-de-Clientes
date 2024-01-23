@@ -41,6 +41,10 @@ yarn install
 
 Crie o banco de dados:
 
+backend/database/db.js
+
+adicione o código igual aos campos pré-definidos no db.js
+
 ```bash
 USER=postgres
 HOST=localhost
