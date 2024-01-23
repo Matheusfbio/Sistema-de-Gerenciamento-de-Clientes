@@ -8,11 +8,11 @@ O Sistema de Gerenciamento de Clientes é uma aplicação desenvolvida em React.
 
 ## Funcionalidades Principais
 
-- **Cadastro de Clientes:** Registre informações detalhadas sobre cada cliente, incluindo nome, endereço, e-mail, telefone, etc.
+**Cadastro de Clientes:** Registre informações detalhadas sobre cada cliente, incluindo nome, endereço, e-mail, telefone, etc.
 
-- **Pesquisa e Filtragem:** Facilite a localização de clientes específicos por meio de recursos de pesquisa e filtros.
+**Pesquisa e Filtragem:** Facilite a localização de clientes específicos por meio de recursos de pesquisa e filtros.
 
-- **Atualizações e Remoções:** Atualize facilmente as informações do cliente e remova registros quando necessário.
+**Atualizações e Remoções:** Atualize facilmente as informações do cliente e remova registros quando necessário.
 
 ## Como Usar
 
@@ -26,8 +26,10 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
 ```bash
 git clone https://github.com/Matheusfbio/Sistema-de-Gerenciamento-de-Clientes.git
+
 cd Sistema-de-Gerenciamento-de-Clientes
 ```
+
 Abra 2 terminais, uma para executar o frontend e o backend.
 
 1° terminal
@@ -39,29 +41,35 @@ cd backend
 yarn install
 ```
 
-Crie o banco de dados:
+Crie a chamada ao banco de dados:
 
-backend/database/db.js
+o arquivo esta no backend/database/db.js caso o seu usuario do postgres seja diferente do que está sendo exemplificado.
 
 adicione o código igual aos campos pré-definidos no db.js
 
 ```bash
-USER=postgres
-HOST=localhost
-DATABASE=Cliente-test
-PASSWORD=sua-senha-do-postgres
-PORT=5432
+user=postgres
+host=localhost
+database=Cliente-test
+password=sua-senha-do-postgres
+port=5432
 ```
 
 ```bash
 cd backend
+yarn install
+```
+
+àpos instalar os pacotes
+
+```bash
 yarn dev
 ```
 
-- Abra alguma plataforma que executa Api com postman, apidog ou Insomina.
-- Navega para http://localhost:3000/api-docs/#/ e execute na plataforma de api o /setup para gerar o banco de dados.
+Abra alguma plataforma que executa api client com postman, apidog ou Insomina.
+Navega para http://localhost:3000/api-docs/#/ e execute na plataforma de api client o /setup para gerar o banco de dados.
 
-2° terminar 
+2° terminar
 
 Instale as dependências do frontend:
 
@@ -72,6 +80,18 @@ cd frontend
 yarn install
 ```
 
+àpos instalar os pacotes
+
+```bash
+yarn dev
+```
+
+Navegue para este link:
+
+http://localhost:5173/
+
+para ir o front-end.
+
 ## Contribuição
 
 Contribuições são bem-vindas! Se você encontrar problemas, bugs ou tiver sugestões para melhorias, sinta-se à vontade para abrir uma issue ou enviar um pull request.
@@ -79,9 +99,3 @@ Contribuições são bem-vindas! Se você encontrar problemas, bugs ou tiver sug
 ## Contato
 
 Para questões ou mais informações sobre o projeto, entre em contato com Matheusfbio via email:matheusfabiorsgmail.com ou Linkedin https://www.linkedin.com/in/matheus-fabio/
-
-## Observaçoes
-
-- Não foi possivel implementar a 2 parte do teste devido ao tempo curto, mas, futuramento tentarei implemente esta parte.
-
-- Esperamos que o Sistema de Gerenciamento de Clientes seja útil para suas necessidades de gestão de clientes! Obrigado por usar espero que curta o projeto
