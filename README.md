@@ -102,6 +102,10 @@ para ir o front-end.
 
 Contribuições são bem-vindas! Se você encontrar problemas, bugs ou tiver sugestões para melhorias, sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
+## Observações 
+O site não esta responsivo para todos os tamanho, o projeto é voltado para conhecimento em web e racionio logico.
+Não possue UI/UX design.
+
 ## Contato
 
 Para questões ou mais informações sobre o projeto, entre em contato com Matheusfbio via email:matheusfabiorsgmail.com ou Linkedin https://www.linkedin.com/in/matheus-fabio/
