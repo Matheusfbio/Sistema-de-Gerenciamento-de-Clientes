@@ -71,7 +71,8 @@ export default function App() {
       alert("Por favor, insira um nome para filtrar");
       return;
     }
-
+    
+//alterar para axios
     const response = await fetch(
       `http://localhost:3000/clientes/${filtroNome}`
     );
@@ -106,6 +107,7 @@ export default function App() {
       novaCoordenadaX ||
       novaCoordenadaY
     ) {
+      //alterar para axios
       await fetch(`http://localhost:3000/clientes/${id}`, {
         method: "PUT",
         headers: {
@@ -128,6 +130,7 @@ export default function App() {
       "Tem certeza que deseja excluir este cliente?"
     );
     if (confirmacao) {
+      //alterar para axios
       await fetch(`http://localhost:3000/clientes/${id}`, {
         method: "DELETE",
       });
